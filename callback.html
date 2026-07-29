@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Autorização TikTok — código</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 60px auto; padding: 0 20px; line-height: 1.6; color: #222; }
+    h1 { font-size: 1.3rem; }
+    #code { font-family: monospace; font-size: 1.1rem; background: #f2f2f2; padding: 14px; border-radius: 8px; word-break: break-all; user-select: all; }
+    button { margin-top: 12px; padding: 8px 16px; cursor: pointer; }
+    .erro { color: #b00020; }
+  </style>
+</head>
+<body>
+  <h1>Autorização concluída</h1>
+  <p id="instrucao">Copie o código abaixo e cole no terminal onde você rodou <code>autorizar_tiktok.py</code>:</p>
+  <div id="code">carregando...</div>
+  <button onclick="copiar()">Copiar código</button>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    const erro = params.get("error");
+    const codeEl = document.getElementById("code");
+
+    if (code) {
+      codeEl.textContent = code;
+    } else if (erro) {
+      document.getElementById("instrucao").innerHTML =
+        '<span class="erro">A autorização falhou: ' + erro + '</span>';
+      codeEl.textContent = "(nenhum código recebido)";
+    } else {
+      codeEl.textContent = "(nenhum código encontrado na URL)";
+    }
+
+    function copiar() {
+      navigator.clipboard.writeText(codeEl.textContent);
+    }
+  </script>
+</body>
+</html>
